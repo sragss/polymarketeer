@@ -179,29 +179,30 @@ const ChatBotDemo = () => {
                         );
                       default:
                         // Handle tool calls
-                        if (part.type.startsWith('tool-')) {
+                        if (part.type.startsWith('tool-') && 'state' in part && 'input' in part) {
+                          const toolPart = part as any;
                           return (
                             <Tool
                               key={`${message.id}-${i}`}
                               defaultOpen={
-                                part.state === 'output-available' ||
-                                part.state === 'output-error'
+                                toolPart.state === 'output-available' ||
+                                toolPart.state === 'output-error'
                               }
                             >
-                              <ToolHeader type={part.type} state={part.state} />
+                              <ToolHeader type={toolPart.type} state={toolPart.state} />
                               <ToolContent>
-                                <ToolInput input={part.input} />
+                                <ToolInput input={toolPart.input} />
                                 <ToolOutput
                                   output={
-                                    part.output && (
+                                    toolPart.output && (
                                       <Response>
-                                        {typeof part.output === 'string'
-                                          ? part.output
-                                          : JSON.stringify(part.output, null, 2)}
+                                        {typeof toolPart.output === 'string'
+                                          ? toolPart.output
+                                          : JSON.stringify(toolPart.output, null, 2)}
                                       </Response>
                                     )
                                   }
-                                  errorText={part.errorText}
+                                  errorText={toolPart.errorText}
                                 />
                               </ToolContent>
                             </Tool>
