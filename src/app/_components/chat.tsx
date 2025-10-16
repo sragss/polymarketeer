@@ -68,7 +68,7 @@ const suggestions = [
 
 const ChatBotDemo = () => {
   const [input, setInput] = useState('');
-  const [model, setModel] = useState<string>(models[0].value);
+  const [model, setModel] = useState<string>(models[2].value); // Claude as default
   const { messages, sendMessage, status } = useChat();
 
   const handleSubmit = (e: React.FormEvent) => {
