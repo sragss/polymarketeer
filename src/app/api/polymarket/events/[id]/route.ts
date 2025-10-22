@@ -1,5 +1,6 @@
 import type { PolymarketEvent } from '@/types/polymarket';
 import { NextResponse } from 'next/server';
+import { polymarketEventByIdParamsSchema } from '@/lib/api-schemas';
 
 const GAMMA_API_BASE = 'https://gamma-api.polymarket.com';
 
@@ -10,12 +11,20 @@ export async function GET(
   try {
     const { id } = await params;
 
-    if (!id) {
+    // Validate path parameter with Zod
+    const validation = polymarketEventByIdParamsSchema.safeParse({ id });
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Event ID or slug is required' },
+        {
+          error: 'Invalid event ID',
+          details: validation.error.format(),
+        },
         { status: 400 }
       );
     }
+
+    const validated = validation.data;
 
     // Try fetching by slug first
     const response = await fetch(`${GAMMA_API_BASE}/events/${id}`, {

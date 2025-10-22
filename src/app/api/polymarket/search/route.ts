@@ -1,48 +1,55 @@
 import type { PolymarketEvent } from '@/types/polymarket';
 import { NextResponse } from 'next/server';
+import { polymarketSearchQuerySchema } from '@/lib/api-schemas';
 
 const GAMMA_API_BASE = 'https://gamma-api.polymarket.com';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const query = searchParams.get('q');
 
-    if (!query || query.trim().length === 0) {
+    // Validate query parameters with Zod
+    const queryParams = Object.fromEntries(searchParams.entries());
+    const validation = polymarketSearchQuerySchema.safeParse(queryParams);
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Search query is required' },
+        {
+          error: 'Invalid query parameters',
+          details: validation.error.format(),
+        },
         { status: 400 }
       );
     }
 
+    const validated = validation.data;
+
     // Build query parameters for Gamma API
     const params = new URLSearchParams({
-      q: query,
-      limit_per_type: searchParams.get('limit_per_type') || '100',
+      q: validated.q,
+      limit_per_type: validated.limit_per_type.toString(),
     });
 
     // Add optional filtering parameters if provided
-    if (searchParams.has('events_status')) {
-      params.set('events_status', searchParams.get('events_status') as string);
+    if (validated.events_status) {
+      params.set('events_status', validated.events_status);
     }
-    if (searchParams.has('events_tag')) {
-      params.set('events_tag', searchParams.get('events_tag') as string);
+    if (validated.events_tag) {
+      params.set('events_tag', validated.events_tag);
     }
 
     // Filter closed markets - default to showing only open markets
-    const openOnly = searchParams.get('open_only');
-    if (openOnly === 'true') {
+    if (validated.open_only === 'true') {
       // Use events_status=active to filter for open events
       params.set('events_status', 'active');
     }
-    // If openOnly is false or null, don't set events_status (show all)
 
     // Add sorting parameters if provided
-    if (searchParams.has('sort')) {
-      params.set('sort', searchParams.get('sort') as string);
+    if (validated.sort) {
+      params.set('sort', validated.sort);
     }
-    if (searchParams.has('ascending')) {
-      params.set('ascending', searchParams.get('ascending') as string);
+    if (validated.ascending) {
+      params.set('ascending', validated.ascending);
     }
 
     const response = await fetch(

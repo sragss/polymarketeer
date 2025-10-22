@@ -5,21 +5,27 @@ import {
   formatSearchResult,
 } from '@/lib/kalshi-formatters';
 import type { KalshiSearchResult } from '@/types/kalshi';
+import { kalshiMarketsSearchQuerySchema } from '@/lib/api-schemas';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const query = searchParams.get('q');
 
-    if (!query || query.trim().length === 0) {
+    // Validate query parameters with Zod
+    const queryParams = Object.fromEntries(searchParams.entries());
+    const validation = kalshiMarketsSearchQuerySchema.safeParse(queryParams);
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Search query is required' },
+        {
+          error: 'Invalid query parameters',
+          details: validation.error.format(),
+        },
         { status: 400 }
       );
     }
 
-    const limit = parseInt(searchParams.get('limit') || '10', 10);
-    const category = searchParams.get('category');
+    const validated = validation.data;
 
     // Fetch all cached markets
     const markets = await kalshiCache.getMarkets();
@@ -28,25 +34,25 @@ export async function GET(request: Request) {
     const results: KalshiSearchResult[] = markets
       .map((market) => {
         const result = formatSearchResult(market);
-        result.relevanceScore = calculateRelevanceScore(market, query);
+        result.relevanceScore = calculateRelevanceScore(market, validated.q);
         return result;
       })
       .filter((result) => result.relevanceScore > 0) // Only include matches
       .filter((result) => {
         // Filter by category if provided
-        if (category) {
+        if (validated.category) {
           return (
-            result.category.toLowerCase() === category.toLowerCase()
+            result.category.toLowerCase() === validated.category.toLowerCase()
           );
         }
         return true;
       })
       .sort((a, b) => b.relevanceScore - a.relevanceScore) // Sort by relevance
-      .slice(0, limit);
+      .slice(0, validated.limit);
 
     return NextResponse.json(
       {
-        query,
+        query: validated.q,
         totalResults: results.length,
         markets: results,
       },
