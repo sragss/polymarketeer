@@ -40,6 +40,7 @@ export const x402RoutesConfig: RoutesConfig = {
       description: routeDescriptions["/api/x402/polymarket/events"],
       inputSchema: inputSchemaToX402(polymarketEventsQuerySchema),
       outputSchema: zodToJsonSchema(genericResponseSchema),
+      discoverable: true,
     },
   },
   "/api/x402/polymarket/tags": {
@@ -49,6 +50,7 @@ export const x402RoutesConfig: RoutesConfig = {
       description: routeDescriptions["/api/x402/polymarket/tags"],
       inputSchema: inputSchemaToX402(polymarketTagsQuerySchema),
       outputSchema: zodToJsonSchema(genericResponseSchema),
+      discoverable: true,
     },
   },
   "/api/x402/polymarket/search": {
@@ -58,6 +60,7 @@ export const x402RoutesConfig: RoutesConfig = {
       description: routeDescriptions["/api/x402/polymarket/search"],
       inputSchema: inputSchemaToX402(polymarketSearchQuerySchema),
       outputSchema: zodToJsonSchema(genericResponseSchema),
+      discoverable: true,
     },
   },
   "/api/x402/kalshi/markets/search": {
@@ -67,6 +70,7 @@ export const x402RoutesConfig: RoutesConfig = {
       description: routeDescriptions["/api/x402/kalshi/markets/search"],
       inputSchema: inputSchemaToX402(kalshiMarketsSearchQuerySchema),
       outputSchema: zodToJsonSchema(genericResponseSchema),
+      discoverable: true,
     },
   },
   "/api/x402/kalshi/markets/trending": {
@@ -76,6 +80,7 @@ export const x402RoutesConfig: RoutesConfig = {
       description: routeDescriptions["/api/x402/kalshi/markets/trending"],
       inputSchema: inputSchemaToX402(kalshiMarketsTrendingQuerySchema),
       outputSchema: zodToJsonSchema(genericResponseSchema),
+      discoverable: true,
     },
   },
   "/api/x402/kalshi/categories": {
@@ -85,6 +90,7 @@ export const x402RoutesConfig: RoutesConfig = {
       description: routeDescriptions["/api/x402/kalshi/categories"],
       inputSchema: inputSchemaToX402(kalshiCategoriesQuerySchema),
       outputSchema: zodToJsonSchema(genericResponseSchema),
+      discoverable: true,
     },
   },
   "/api/x402/polymarket/events/specific": {
@@ -94,6 +100,7 @@ export const x402RoutesConfig: RoutesConfig = {
       description: routeDescriptions["/api/x402/polymarket/events/specific"],
       inputSchema: inputSchemaToX402(polymarketEventSpecificQuerySchema),
       outputSchema: zodToJsonSchema(genericResponseSchema),
+      discoverable: true,
     },
   },
   "/api/x402/kalshi/events/specific": {
@@ -103,6 +110,7 @@ export const x402RoutesConfig: RoutesConfig = {
       description: routeDescriptions["/api/x402/kalshi/events/specific"],
       inputSchema: inputSchemaToX402(kalshiEventSpecificQuerySchema),
       outputSchema: zodToJsonSchema(genericResponseSchema),
+      discoverable: true,
     },
   },
 };
