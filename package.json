@@ -12,6 +12,7 @@
   "dependencies": {
     "@ai-sdk/openai": "2.0.16",
     "@ai-sdk/react": "2.0.17",
+    "@coinbase/x402": "^0.6.6",
     "@merit-systems/echo-next-sdk": "0.0.24",
     "@merit-systems/echo-react-sdk": "1.0.33",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -39,6 +40,8 @@
     "streamdown": "^1.2.0",
     "tailwind-merge": "^3.3.1",
     "use-stick-to-bottom": "^1.1.1",
+    "x402": "^0.6.6",
+    "x402-next": "^0.6.5",
     "zod": "^4.1.5"
   },
   "devDependencies": {
