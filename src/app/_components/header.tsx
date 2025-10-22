@@ -2,6 +2,7 @@ import { EchoAccount } from '@/components/echo-account-next';
 import { isSignedIn } from '@/echo';
 import Link from 'next/link';
 import type { FC } from 'react';
+import { SiGithub } from 'react-icons/si';
 
 interface HeaderProps {
   title?: string;
@@ -64,6 +65,14 @@ const Header: FC<HeaderProps> = async ({
 
         {/* Account */}
         <nav className="flex items-center gap-2">
+          <Link
+            href="https://github.com/sragss/polymarketeer"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center h-9 w-9 rounded-md bg-background shadow-sm hover:bg-accent transition-colors"
+          >
+            <SiGithub className="h-4 w-4" />
+          </Link>
           <EchoAccount />
         </nav>
       </div>
