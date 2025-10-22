@@ -16,7 +16,7 @@ const Header: FC<HeaderProps> = async ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 border-b border-border bg-background backdrop-blur-sm ${className}`}
+      className={`fixed top-0 left-0 right-0 z-50 bg-background backdrop-blur-sm shadow-sm ${className}`}
     >
       <div className="h-12 px-4 flex items-center justify-between max-w-full">
         {/* Logo + Name + Navigation */}
