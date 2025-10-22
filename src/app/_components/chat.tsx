@@ -4,6 +4,7 @@ import { useChat } from '@ai-sdk/react';
 import { CopyIcon, MessageSquare } from 'lucide-react';
 import { Fragment, useState } from 'react';
 import { Action, Actions } from '@/components/ai-elements/actions';
+import { EchoConnectDialog } from '@/components/echo-connect-dialog';
 import {
   Conversation,
   ConversationContent,
@@ -98,9 +99,11 @@ const ChatBotDemo = () => {
   };
 
   return (
-    <div className="mx-auto flex h-full max-w-4xl flex-col p-6">
-      <div className="flex h-full min-h-0 flex-col">
-        <Conversation className="relative min-h-0 w-full flex-1 overflow-hidden">
+    <>
+      <EchoConnectDialog />
+      <div className="mx-auto flex h-full max-w-4xl flex-col p-6">
+        <div className="flex h-full min-h-0 flex-col">
+          <Conversation className="relative min-h-0 w-full flex-1 overflow-hidden">
           <ConversationContent>
             {messages.length === 0 ? (
               <ConversationEmptyState
@@ -259,8 +262,9 @@ const ChatBotDemo = () => {
             <PromptInputSubmit disabled={!input} status={status} />
           </PromptInputToolbar>
         </PromptInput>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
