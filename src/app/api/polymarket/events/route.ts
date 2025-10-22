@@ -1,5 +1,6 @@
 import type { PolymarketEvent } from '@/types/polymarket';
 import { NextResponse } from 'next/server';
+import { polymarketEventsQuerySchema } from '@/lib/api-schemas';
 
 const GAMMA_API_BASE = 'https://gamma-api.polymarket.com';
 
@@ -7,21 +8,37 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
 
+    // Validate query parameters with Zod
+    const queryParams = Object.fromEntries(searchParams.entries());
+    const validation = polymarketEventsQuerySchema.safeParse(queryParams);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Invalid query parameters',
+          details: validation.error.format(),
+        },
+        { status: 400 }
+      );
+    }
+
+    const validated = validation.data;
+
     // Build query parameters for Gamma API
     const params = new URLSearchParams({
-      closed: searchParams.get('closed') || 'false',
-      active: searchParams.get('active') || 'true',
-      limit: searchParams.get('limit') || '100',
-      order: searchParams.get('order') || 'volume24hr',
-      ascending: searchParams.get('ascending') || 'false',
+      closed: validated.closed,
+      active: validated.active,
+      limit: validated.limit.toString(),
+      order: validated.order,
+      ascending: validated.ascending,
     });
 
     // Add optional filtering parameters if provided
-    if (searchParams.has('offset')) {
-      params.set('offset', searchParams.get('offset') as string);
+    if (validated.offset !== undefined) {
+      params.set('offset', validated.offset.toString());
     }
-    if (searchParams.has('tag_id')) {
-      params.set('tag_id', searchParams.get('tag_id') as string);
+    if (validated.tag_id) {
+      params.set('tag_id', validated.tag_id);
     }
 
     const response = await fetch(`${GAMMA_API_BASE}/events?${params.toString()}`, {

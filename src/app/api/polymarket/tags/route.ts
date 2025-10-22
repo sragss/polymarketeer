@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { polymarketTagsQuerySchema } from '@/lib/api-schemas';
 
 const GAMMA_API_BASE = 'https://gamma-api.polymarket.com';
 
@@ -16,7 +17,23 @@ export interface PolymarketTag {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const includeCount = searchParams.get('include_count') === 'true';
+
+    // Validate query parameters with Zod
+    const queryParams = Object.fromEntries(searchParams.entries());
+    const validation = polymarketTagsQuerySchema.safeParse(queryParams);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Invalid query parameters',
+          details: validation.error.format(),
+        },
+        { status: 400 }
+      );
+    }
+
+    const validated = validation.data;
+    const includeCount = validated.include_count === 'true';
 
     // Fetch all tags with a high limit (API supports up to 1000+)
     const response = await fetch(`${GAMMA_API_BASE}/tags?limit=10000`, {

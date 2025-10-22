@@ -1,12 +1,27 @@
 import { NextResponse } from 'next/server';
 import { kalshiCache } from '@/lib/kalshi-cache';
 import { formatSearchResult } from '@/lib/kalshi-formatters';
+import { kalshiMarketsTrendingQuerySchema } from '@/lib/api-schemas';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '10', 10);
-    const category = searchParams.get('category');
+
+    // Validate query parameters with Zod
+    const queryParams = Object.fromEntries(searchParams.entries());
+    const validation = kalshiMarketsTrendingQuerySchema.safeParse(queryParams);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Invalid query parameters',
+          details: validation.error.format(),
+        },
+        { status: 400 }
+      );
+    }
+
+    const validated = validation.data;
 
     // Fetch all cached markets
     const markets = await kalshiCache.getMarkets();
@@ -15,8 +30,8 @@ export async function GET(request: Request) {
     const trending = markets
       .filter((market) => {
         // Filter by category if provided
-        if (category) {
-          return market.category.toLowerCase() === category.toLowerCase();
+        if (validated.category) {
+          return market.category.toLowerCase() === validated.category.toLowerCase();
         }
         return true;
       })
@@ -26,12 +41,12 @@ export async function GET(request: Request) {
         const volumeB = parseFloat(b.volume_24h);
         return volumeB - volumeA;
       })
-      .slice(0, limit)
+      .slice(0, validated.limit)
       .map(formatSearchResult);
 
     return NextResponse.json(
       {
-        category: category || 'All Categories',
+        category: validated.category || 'All Categories',
         totalResults: trending.length,
         markets: trending,
       },

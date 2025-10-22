@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { KalshiEventDetailResponse } from '@/types/kalshi';
 import { formatEventDetails } from '@/lib/kalshi-formatters';
+import { kalshiEventByTickerParamsSchema } from '@/lib/api-schemas';
 
 const KALSHI_API_BASE = 'https://api.elections.kalshi.com/trade-api/v2';
 
@@ -11,12 +12,20 @@ export async function GET(
   try {
     const { ticker } = await params;
 
-    if (!ticker) {
+    // Validate path parameter with Zod
+    const validation = kalshiEventByTickerParamsSchema.safeParse({ ticker });
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Event ticker is required' },
+        {
+          error: 'Invalid event ticker',
+          details: validation.error.format(),
+        },
         { status: 400 }
       );
     }
+
+    const validated = validation.data;
 
     // Fetch event details with all markets
     const response = await fetch(
