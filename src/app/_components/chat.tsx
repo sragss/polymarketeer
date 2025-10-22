@@ -61,9 +61,9 @@ const models = [
 ];
 
 const suggestions = [
-  'Can you explain how to play tennis?',
-  'Write me a code snippet of how to use the vercel ai sdk to create a chatbot',
-  'How do I make a really good fish taco?',
+  'Find bitcoin markets on both platforms',
+  'What are the trending markets right now?',
+  'Show me election markets on Kalshi',
 ];
 
 const ChatBotDemo = () => {
