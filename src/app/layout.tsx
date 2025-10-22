@@ -38,7 +38,7 @@ export default function RootLayout({
       >
         <Providers>
           <Header title="Polymarketeer" />
-          <div className="min-h-0 flex-1">{children}</div>
+          <div className="min-h-0 flex-1 pt-12">{children}</div>
         </Providers>
       </body>
     </html>

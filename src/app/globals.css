@@ -46,72 +46,71 @@
 }
 
 :root {
-	--radius: 0.625rem;
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.616 0.166 223.7);
-	--primary-foreground: oklch(1 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
-	--destructive: oklch(0.577 0.245 27.325);
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: oklch(0.708 0 0);
-	--chart-1: oklch(0.646 0.222 41.116);
-	--chart-2: oklch(0.6 0.118 184.704);
-	--chart-3: oklch(0.398 0.07 227.392);
-	--chart-4: oklch(0.828 0.189 84.429);
-	--chart-5: oklch(0.769 0.188 70.08);
-	--sidebar: oklch(0.985 0 0);
-	--sidebar-foreground: oklch(0.145 0 0);
-	--sidebar-primary: oklch(0.616 0.166 223.7);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.97 0 0);
-	--sidebar-accent-foreground: oklch(0.205 0 0);
-	--sidebar-border: oklch(0.922 0 0);
-	--sidebar-ring: oklch(0.708 0 0);
-}
+	/* Border Radius */
+	--radius: 0.5rem;
 
-.dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.616 0.166 223.7);
-	--primary-foreground: oklch(1 0 0);
-	--secondary: oklch(0.269 0 0);
-	--secondary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
-	--destructive: oklch(0.704 0.191 22.216);
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
-	--ring: oklch(0.556 0 0);
-	--chart-1: oklch(0.488 0.243 264.376);
-	--chart-2: oklch(0.696 0.17 162.48);
-	--chart-3: oklch(0.769 0.188 70.08);
-	--chart-4: oklch(0.627 0.265 303.9);
-	--chart-5: oklch(0.645 0.246 16.439);
-	--sidebar: oklch(0.205 0 0);
-	--sidebar-foreground: oklch(0.985 0 0);
-	--sidebar-primary: oklch(0.616 0.166 223.7);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.269 0 0);
-	--sidebar-accent-foreground: oklch(0.985 0 0);
-	--sidebar-border: oklch(1 0 0 / 10%);
-	--sidebar-ring: oklch(0.556 0 0);
+	/* Color System - Light Mode Only */
+	--background: 0 0% 100%;
+	--foreground: 0 0% 9%;
+	--card: 0 0% 98%;
+	--card-foreground: 0 0% 9%;
+	--popover: 0 0% 100%;
+	--popover-foreground: 0 0% 9%;
+
+	--bg-surface: 0 0% 98%;
+	--bg-elevated: 0 0% 95%;
+	--bg-hover: 0 0% 92%;
+	--bg-active: 0 0% 88%;
+
+	--border: 0 0% 90%;
+	--border-strong: 0 0% 75%;
+	--input: 0 0% 90%;
+	--ring: 217 91% 60%;
+
+	--text-primary: 0 0% 9%;
+	--text-secondary: 0 0% 45%;
+	--text-tertiary: 0 0% 62%;
+
+	--primary: 217 91% 60%;
+	--primary-foreground: 0 0% 100%;
+	--secondary: 0 0% 95%;
+	--secondary-foreground: 0 0% 9%;
+	--muted: 0 0% 95%;
+	--muted-foreground: 0 0% 45%;
+	--accent: 0 0% 95%;
+	--accent-foreground: 0 0% 9%;
+	--destructive: 348 80% 50%;
+
+	/* Data Colors */
+	--data-positive: 142 70% 40%;
+	--data-positive-dim: 142 70% 30%;
+	--data-negative: 348 80% 50%;
+	--data-negative-dim: 348 80% 40%;
+	--data-volume: 187 80% 40%;
+	--data-volume-dim: 187 80% 30%;
+	--data-warning: 45 95% 48%;
+	--data-warning-dim: 45 95% 38%;
+
+	/* Platform Colors */
+	--platform-polymarket: 270 60% 50%;
+	--platform-kalshi: 30 100% 45%;
+
+	/* Charts */
+	--chart-1: 142 70% 40%;
+	--chart-2: 187 80% 40%;
+	--chart-3: 217 91% 60%;
+	--chart-4: 270 60% 50%;
+	--chart-5: 30 100% 45%;
+
+	/* Sidebar */
+	--sidebar: 0 0% 98%;
+	--sidebar-foreground: 0 0% 9%;
+	--sidebar-primary: 217 91% 60%;
+	--sidebar-primary-foreground: 0 0% 100%;
+	--sidebar-accent: 0 0% 95%;
+	--sidebar-accent-foreground: 0 0% 9%;
+	--sidebar-border: 0 0% 90%;
+	--sidebar-ring: 217 91% 60%;
 }
 
 @layer base {
@@ -120,5 +119,54 @@
 	}
 	body {
 		@apply bg-background text-foreground;
+	}
+
+	/* Monospace numbers with tabular figures */
+	.font-mono {
+		font-feature-settings: 'tnum' 1;
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* Data color utilities */
+	.text-positive {
+		color: hsl(var(--data-positive));
+	}
+	.text-negative {
+		color: hsl(var(--data-negative));
+	}
+	.text-volume {
+		color: hsl(var(--data-volume));
+	}
+	.text-warning {
+		color: hsl(var(--data-warning));
+	}
+
+	/* Platform color utilities */
+	.bg-polymarket {
+		background-color: hsl(var(--platform-polymarket));
+	}
+	.bg-kalshi {
+		background-color: hsl(var(--platform-kalshi));
+	}
+	.border-polymarket {
+		border-color: hsl(var(--platform-polymarket));
+	}
+	.border-kalshi {
+		border-color: hsl(var(--platform-kalshi));
+	}
+
+	/* Custom scrollbar styling - no background */
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	::-webkit-scrollbar-thumb {
+		background: hsl(var(--border));
+		border-radius: 4px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: hsl(var(--border-strong));
 	}
 }

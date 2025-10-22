@@ -101,15 +101,15 @@ const ChatBotDemo = () => {
   return (
     <>
       <EchoConnectDialog />
-      <div className="mx-auto flex h-full max-w-4xl flex-col p-6">
+      <div className="mx-auto flex h-full max-w-4xl flex-col p-6 pt-0">
         <div className="flex h-full min-h-0 flex-col">
           <Conversation className="relative min-h-0 w-full flex-1 overflow-hidden">
           <ConversationContent>
             {messages.length === 0 ? (
               <ConversationEmptyState
                 icon={<MessageSquare className="size-12" />}
-                title="No messages yet"
-                description="Start a conversation to see messages here"
+                title="Explore Prediction Markets"
+                description="Ask about trending markets, search across Polymarket and Kalshi, or analyze market data. I have access to both platforms' APIs to help you discover opportunities."
               />
             ) : (
               messages.map(message => (

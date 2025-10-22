@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { PlatformBadge } from '@/components/ui/platform-badge';
 import type { PolymarketEvent } from '@/types/polymarket';
 import { parseOutcomePrices, parseOutcomes } from '@/types/polymarket';
 import { useState, useEffect } from 'react';
@@ -139,7 +140,7 @@ export function MarketGrid({ initialEvents, tags }: MarketGridProps) {
       )}
 
       {!loading && events.length > 0 && (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {events.map((event) => {
             const hasValidMarkets = event.markets.some(
               (m) => m.outcomePrices !== null
@@ -150,18 +151,22 @@ export function MarketGrid({ initialEvents, tags }: MarketGridProps) {
             const eventUrl = `https://polymarket.com/event/${event.slug}`;
 
             return (
-              <Card key={event.id} className="flex flex-col">
+              <Card
+                key={event.id}
+                className="flex flex-col group hover:bg-[hsl(var(--bg-hover))] hover:border-l-2 hover:border-l-polymarket cursor-pointer"
+              >
                 <CardHeader>
-                  <div className="mb-3 flex items-start gap-3">
+                  <div className="mb-2 flex items-start gap-3">
+                    <PlatformBadge platform="polymarket" />
                     {event.image && (
                       <img
                         src={event.image}
                         alt={event.title}
-                        className="h-12 w-12 rounded-lg object-cover"
+                        className="h-10 w-10 rounded-md object-cover"
                       />
                     )}
-                    <div className="flex-1">
-                      <CardTitle className="text-lg leading-tight">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-base leading-tight">
                         <a
                           href={eventUrl}
                           target="_blank"
@@ -172,7 +177,7 @@ export function MarketGrid({ initialEvents, tags }: MarketGridProps) {
                         </a>
                       </CardTitle>
                       {event.category && (
-                        <Badge variant="secondary" className="mt-2 text-xs">
+                        <Badge variant="secondary" className="mt-1.5 text-[10px]">
                           {event.category}
                         </Badge>
                       )}
@@ -184,23 +189,23 @@ export function MarketGrid({ initialEvents, tags }: MarketGridProps) {
                 </CardHeader>
 
                 <CardContent className="flex-1">
-                  <div className="mb-4 grid grid-cols-2 gap-4 text-sm">
+                  <div className="mb-3 grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <div className="text-muted-foreground text-xs">Volume</div>
-                      <div className="font-semibold">
+                      <div className="text-[hsl(var(--text-tertiary))] text-xs">Volume</div>
+                      <div className="font-mono font-medium text-volume">
                         {formatVolume(event.volume)}
                       </div>
                     </div>
                     <div>
-                      <div className="text-muted-foreground text-xs">24h Vol</div>
-                      <div className="font-semibold">
+                      <div className="text-[hsl(var(--text-tertiary))] text-xs">24h Vol</div>
+                      <div className="font-mono font-medium text-volume">
                         {formatVolume(event.volume24hr)}
                       </div>
                     </div>
                   </div>
 
-                  <div className="space-y-3 border-t pt-3">
-                    <div className="text-muted-foreground text-xs font-medium">
+                  <div className="space-y-2 border-t pt-3">
+                    <div className="text-[hsl(var(--text-tertiary))] text-xs font-medium">
                       Markets
                     </div>
                     {event.markets.slice(0, 3).map((market) => {
@@ -212,27 +217,27 @@ export function MarketGrid({ initialEvents, tags }: MarketGridProps) {
                       return (
                         <div
                           key={market.id}
-                          className="rounded-lg border bg-muted/50 p-3 text-xs"
+                          className="rounded-md border bg-[hsl(var(--bg-surface))] p-2.5 text-xs"
                         >
-                          <div className="mb-2 line-clamp-2 font-medium leading-tight">
+                          <div className="mb-1.5 line-clamp-2 font-medium leading-tight">
                             {market.question}
                           </div>
                           <div className="flex items-center justify-between">
-                            <div className="text-muted-foreground">
+                            <div className="text-[hsl(var(--text-tertiary))]">
                               {outcomes.join(' / ')}
                             </div>
                             <div className="font-mono font-semibold">
                               {formatOdds(prices)}
                             </div>
                           </div>
-                          <div className="mt-1 text-muted-foreground">
-                            Vol: {formatVolume(market.volumeNum)}
+                          <div className="mt-1 text-[hsl(var(--text-tertiary))] font-mono">
+                            Vol: <span className="text-volume">{formatVolume(market.volumeNum)}</span>
                           </div>
                         </div>
                       );
                     })}
                     {event.markets.length > 3 && (
-                      <div className="text-muted-foreground text-xs">
+                      <div className="text-[hsl(var(--text-tertiary))] text-xs">
                         +{event.markets.length - 3} more markets
                       </div>
                     )}
